@@ -24,7 +24,7 @@ body {
     transition: opacity 1.5s ease;
 }
 
-/* текст над сердцем */
+/* текст */
 .heart-text {
     position: absolute;
     top: 40%;
@@ -52,7 +52,6 @@ body {
 
 /* картинка */
 .image {
-    opacity: 0;
     max-width: 320px;
     border-radius: 20px;
 
@@ -60,7 +59,15 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    transition: opacity 2s ease;
+    
+    opacity: 0;
+    transition: opacity 1.5s ease;
+    pointer-events: none;
+}
+
+/* ВАЖНО: класс показа */
+.image.show {
+    opacity: 1;
 }
 
 /* сердечки */
@@ -91,7 +98,7 @@ body {
 
 <div class="heart" id="heart">❤️</div>
 
-<img id="finalImage" class="image" src="изображение_2026-06-18_164653121.png">
+<img id="finalImage" class="image" src="photo.png">
 
 <script>
 const startText = document.getElementById("startText");
@@ -99,7 +106,7 @@ const heartText = document.getElementById("heartText");
 const heart = document.getElementById("heart");
 const image = document.getElementById("finalImage");
 
-/* шаг 1 — текст → сердце появляется */
+/* появление текста и сердца */
 setTimeout(() => {
     startText.style.opacity = 0;
 }, 3000);
@@ -112,7 +119,7 @@ setTimeout(() => {
     heartText.style.opacity = 1;
 }, 5000);
 
-/* создание сердечек */
+/* сердечки */
 function createHeart(x, y) {
     const h = document.createElement("div");
     h.className = "floating-heart";
@@ -127,13 +134,10 @@ function createHeart(x, y) {
 /* клик */
 heart.addEventListener("click", () => {
 
-    heart.style.transform = "translate(-50%, -50%) scale(1.2)";
+    heart.style.display = "none";
+    heartText.style.display = "none";
 
-    setTimeout(() => {
-        heart.style.display = "none";
-        heartText.style.display = "none";
-    }, 300);
-
+    /* эффект сердечек */
     for (let i = 0; i < 15; i++) {
         setTimeout(() => {
             createHeart(
@@ -143,8 +147,9 @@ heart.addEventListener("click", () => {
         }, i * 50);
     }
 
+    /* ПОКАЗ КАРТИНКИ */
     setTimeout(() => {
-        image.style.opacity = 1;
+        image.classList.add("show");
     }, 600);
 });
 </script>
