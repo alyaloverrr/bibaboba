@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Сюрприз</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    background: beige;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial;
+    overflow: hidden;
+}
+
+/* сердце */
+.heart {
+    font-size: 120px;
+    cursor: pointer;
+    color: red;
+    transition: all 1s ease;
+    position: absolute;
+}
+
+/* эффект разрушения */
+.heart.break {
+    transform: scale(1.8) rotate(20deg);
+    opacity: 0;
+    filter: blur(10px);
+}
+
+/* текст */
+.text {
+    font-size: 40px;
+    color: hotpink;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 1s ease;
+}
+
+/* появление текста */
+.text.show {
+    opacity: 1;
+    transform: scale(1);
+}
+</style>
+</head>
+
+<body>
+
+<div class="heart" id="heart">❤️</div>
+
+<div class="text" id="text">Богдан мой семпай 💖</div>
+
+<script>
+const heart = document.getElementById("heart");
+const text = document.getElementById("text");
+
+heart.addEventListener("click", () => {
+    heart.classList.add("break");
+
+    setTimeout(() => {
+        heart.style.display = "none";
+        text.classList.add("show");
+    }, 900);
+});
+</script>
+
+</body>
+</html>
