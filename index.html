@@ -16,24 +16,12 @@ body {
 /* стартовый текст */
 .start-text {
     position: absolute;
-    top: 20%;
+    top: 30%;
     width: 100%;
     text-align: center;
     font-size: 28px;
     color: hotpink;
     transition: opacity 1.5s ease;
-}
-
-/* сердце по центру */
-.heart {
-    font-size: 120px;
-    color: red;
-    cursor: pointer;
-
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
 
 /* текст над сердцем */
@@ -48,15 +36,23 @@ body {
     transition: opacity 1s ease;
 }
 
-/* контейнер сердца */
-.heart-container {
+/* сердце */
+.heart {
+    font-size: 120px;
+    color: red;
+    cursor: pointer;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     opacity: 0;
-    transition: opacity 1s ease;
+    transition: transform 0.2s ease, opacity 1s ease;
 }
 
 /* картинка */
 .image {
-    display: none;
+    opacity: 0;
     max-width: 320px;
     border-radius: 20px;
 
@@ -64,26 +60,37 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    transition: opacity 2s ease;
+}
+
+/* сердечки */
+.floating-heart {
+    position: absolute;
+    font-size: 20px;
+    color: red;
+    animation: floatUp 1.5s ease forwards;
+    pointer-events: none;
+}
+
+@keyframes floatUp {
+    0% { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateY(-150px) scale(1.5); }
 }
 </style>
 </head>
 
 <body>
 
-<!-- 1. текст -->
 <div class="start-text" id="startText">
-    Привет, Аля, надеюсь тебе понравится
+    Привет, Аля, надеюсь это тебе понравится😜
 </div>
 
-<!-- 2. текст над сердцем -->
 <div class="heart-text" id="heartText">
     Нажимай
 </div>
 
-<!-- 3. сердце -->
 <div class="heart" id="heart">❤️</div>
 
-<!-- 4. картинка -->
 <img id="finalImage" class="image" src="изображение_2026-06-18_164653121.png">
 
 <script>
@@ -92,24 +99,53 @@ const heartText = document.getElementById("heartText");
 const heart = document.getElementById("heart");
 const image = document.getElementById("finalImage");
 
-/* шаг 1 — исчезает стартовый текст */
+/* шаг 1 — текст → сердце появляется */
 setTimeout(() => {
     startText.style.opacity = 0;
 }, 3000);
 
-/* шаг 2 — появляется текст над сердцем */
 setTimeout(() => {
-    heartText.style.opacity = 1;
+    heart.style.opacity = 1;
 }, 4500);
 
-/* шаг 3 — клик по сердцу */
+setTimeout(() => {
+    heartText.style.opacity = 1;
+}, 5000);
+
+/* создание сердечек */
+function createHeart(x, y) {
+    const h = document.createElement("div");
+    h.className = "floating-heart";
+    h.innerText = "❤️";
+    h.style.left = x + "px";
+    h.style.top = y + "px";
+    document.body.appendChild(h);
+
+    setTimeout(() => h.remove(), 1500);
+}
+
+/* клик */
 heart.addEventListener("click", () => {
-    heart.style.display = "none";
-    heartText.style.display = "none";
+
+    heart.style.transform = "translate(-50%, -50%) scale(1.2)";
 
     setTimeout(() => {
-        image.style.display = "block";
-    }, 500);
+        heart.style.display = "none";
+        heartText.style.display = "none";
+    }, 300);
+
+    for (let i = 0; i < 15; i++) {
+        setTimeout(() => {
+            createHeart(
+                window.innerWidth / 2 + (Math.random() * 100 - 50),
+                window.innerHeight / 2 + (Math.random() * 50 - 25)
+            );
+        }, i * 50);
+    }
+
+    setTimeout(() => {
+        image.style.opacity = 1;
+    }, 600);
 });
 </script>
 
