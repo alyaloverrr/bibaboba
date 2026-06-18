@@ -24,7 +24,7 @@ body {
     transition: opacity 1.5s ease;
 }
 
-/* текст */
+/* текст над сердцем */
 .heart-text {
     position: absolute;
     top: 40%;
@@ -59,13 +59,13 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    
+
     opacity: 0;
     transition: opacity 1.5s ease;
     pointer-events: none;
 }
 
-/* ВАЖНО: класс показа */
+/* показ */
 .image.show {
     opacity: 1;
 }
@@ -98,7 +98,8 @@ body {
 
 <div class="heart" id="heart">❤️</div>
 
-<img id="finalImage" class="image" src="photo.png">
+<!-- ВСТАВИЛ ТВОЮ КАРТИНКУ -->
+<img id="finalImage" class="image" src="изображение_2026-06-18_164653121.png">
 
 <script>
 const startText = document.getElementById("startText");
@@ -106,7 +107,7 @@ const heartText = document.getElementById("heartText");
 const heart = document.getElementById("heart");
 const image = document.getElementById("finalImage");
 
-/* появление текста и сердца */
+/* появление текста */
 setTimeout(() => {
     startText.style.opacity = 0;
 }, 3000);
@@ -137,7 +138,6 @@ heart.addEventListener("click", () => {
     heart.style.display = "none";
     heartText.style.display = "none";
 
-    /* эффект сердечек */
     for (let i = 0; i < 15; i++) {
         setTimeout(() => {
             createHeart(
@@ -147,7 +147,6 @@ heart.addEventListener("click", () => {
         }, i * 50);
     }
 
-    /* ПОКАЗ КАРТИНКИ */
     setTimeout(() => {
         image.classList.add("show");
     }, 600);
