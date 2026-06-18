@@ -9,63 +9,154 @@ body {
     margin: 0;
     height: 100vh;
     background: beige;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     font-family: Arial;
     overflow: hidden;
 }
 
+/* верхний текст */
+.top-text {
+    text-align: center;
+    font-size: 28px;
+    margin-top: 20px;
+    transition: opacity 1s ease;
+}
+
 /* сердце */
 .heart {
-    font-size: 120px;
-    cursor: pointer;
+    font-size: 100px;
     color: red;
-    transition: all 1s ease;
     position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    transition: opacity 1s ease;
 }
 
-/* эффект разрушения */
-.heart.break {
-    transform: scale(1.8) rotate(20deg);
-    opacity: 0;
-    filter: blur(10px);
-}
-
-/* текст */
-.text {
-    font-size: 40px;
+/* сообщение после сердца */
+.message {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 30px;
     color: hotpink;
     opacity: 0;
-    transform: scale(0.5);
-    transition: all 1s ease;
+    transition: 1s;
 }
 
-/* появление текста */
-.text.show {
-    opacity: 1;
-    transform: scale(1);
+/* нижний текст */
+.bottom-text {
+    position: absolute;
+    top: 65%;
+    left: 40%;
+    font-size: 22px;
+    opacity: 0;
+    transition: 1s;
+}
+
+/* кнопка блок */
+.button-box {
+    position: absolute;
+    left: 40px;
+    top: 50%;
+}
+
+/* коричневая кнопка */
+.button {
+    width: 140px;
+    height: 60px;
+    background: brown;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+/* полоска над кнопкой */
+.progress-bg {
+    width: 140px;
+    height: 10px;
+    background: #ccc;
+}
+
+.progress {
+    width: 0%;
+    height: 100%;
+    background: green;
+}
+
+/* underline */
+u {
+    text-decoration: underline;
 }
 </style>
 </head>
 
 <body>
 
+<div class="top-text" id="topText">Нажми на сердечко</div>
+
 <div class="heart" id="heart">❤️</div>
 
-<div class="text" id="text">Эльдар. Иди нахуй. 💖</div>
+<div class="message" id="message">Умничка, пошли <u>дальше</u></div>
+
+<div class="bottom-text" id="bottomText">
+Нажми на кнопку и посмотрим какая ты красивая
+</div>
+
+<div class="button-box">
+    <div class="progress-bg">
+        <div class="progress" id="progress"></div>
+    </div>
+    <div class="button" id="button">нажимай</div>
+</div>
 
 <script>
 const heart = document.getElementById("heart");
-const text = document.getElementById("text");
+const topText = document.getElementById("topText");
+const message = document.getElementById("message");
+const bottomText = document.getElementById("bottomText");
+const button = document.getElementById("button");
+const progress = document.getElementById("progress");
 
+let clicked = false;
+
+/* сердце */
 heart.addEventListener("click", () => {
-    heart.classList.add("break");
+    topText.style.opacity = 0;
+    heart.style.opacity = 0;
 
     setTimeout(() => {
-        heart.style.display = "none";
-        text.classList.add("show");
-    }, 900);
+        message.style.opacity = 1;
+    }, 1000);
+
+    setTimeout(() => {
+        message.style.opacity = 0;
+    }, 3000);
+
+    setTimeout(() => {
+        bottomText.style.opacity = 1;
+    }, 4000);
+});
+
+/* кнопка */
+button.addEventListener("click", () => {
+    if (clicked) return;
+    clicked = true;
+
+    let width = 0;
+
+    let interval = setInterval(() => {
+        width += 2;
+        progress.style.width = width + "%";
+
+        if (width > 1000) {
+            clearInterval(interval);
+        }
+    }, 50);
 });
 </script>
 
