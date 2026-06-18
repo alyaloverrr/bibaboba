@@ -10,153 +10,99 @@ body {
     height: 100vh;
     background: beige;
     font-family: Arial;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     overflow: hidden;
 }
 
-/* верхний текст */
-.top-text {
-    text-align: center;
+/* стартовый текст */
+.start-text {
+    position: absolute;
     font-size: 28px;
-    margin-top: 20px;
-    transition: opacity 1s ease;
+    color: hotpink;
+    text-align: center;
+    transition: opacity 1.5s ease;
+}
+
+/* блок с сердцем */
+.heart-block {
+    opacity: 0;
+    text-align: center;
+    transition: opacity 1.5s ease;
+}
+
+/* текст над сердцем */
+.heart-text {
+    font-size: 22px;
+    color: hotpink;
+    margin-bottom: 10px;
 }
 
 /* сердце */
 .heart {
-    font-size: 100px;
+    font-size: 120px;
+    cursor: pointer;
     color: red;
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    cursor: pointer;
-    transition: opacity 1s ease;
+    transition: transform 0.3s ease;
 }
 
-/* сообщение после сердца */
-.message {
-    position: absolute;
-    top: 45%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 30px;
-    color: hotpink;
-    opacity: 0;
-    transition: 1s;
+.heart:active {
+    transform: scale(1.2);
 }
 
-/* нижний текст */
-.bottom-text {
-    position: absolute;
-    top: 65%;
-    left: 40%;
-    font-size: 22px;
-    opacity: 0;
-    transition: 1s;
-}
-
-/* кнопка блок */
-.button-box {
-    position: absolute;
-    left: 40px;
-    top: 50%;
-}
-
-/* коричневая кнопка */
-.button {
-    width: 140px;
-    height: 60px;
-    background: brown;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    margin-top: 10px;
-}
-
-/* полоска над кнопкой */
-.progress-bg {
-    width: 140px;
-    height: 10px;
-    background: #ccc;
-}
-
-.progress {
-    width: 0%;
-    height: 100%;
-    background: green;
-}
-
-/* underline */
-u {
-    text-decoration: underline;
+/* картинка */
+.image {
+    display: none;
+    max-width: 320px;
+    border-radius: 20px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="top-text" id="topText">Нажми на сердечко</div>
-
-<div class="heart" id="heart">❤️</div>
-
-<div class="message" id="message">Умничка, пошли <u>дальше</u></div>
-
-<div class="bottom-text" id="bottomText">
-Нажми на кнопку и посмотрим какая ты красивая
+<!-- 1. текст -->
+<div class="start-text" id="startText">
+    Привет, Аля, надеюсь тебе это понравитсяяя😜
 </div>
 
-<div class="button-box">
-    <div class="progress-bg">
-        <div class="progress" id="progress"></div>
-    </div>
-    <div class="button" id="button">нажимай</div>
+<!-- 2. сердце -->
+<div class="heart-block" id="heartBlock">
+
+    <div class="heart-text">Нажимай</div>
+    <div class="heart" id="heart">❤️</div>
+
 </div>
+
+<!-- 3. картинка -->
+<img id="finalImage" class="image">
+    src="blob:https://web.telegram.org/f82cf9ed-4149-4eef-b177-7586a8d6c2be"
 
 <script>
+const startText = document.getElementById("startText");
+const heartBlock = document.getElementById("heartBlock");
 const heart = document.getElementById("heart");
-const topText = document.getElementById("topText");
-const message = document.getElementById("message");
-const bottomText = document.getElementById("bottomText");
-const button = document.getElementById("button");
-const progress = document.getElementById("progress");
+const image = document.getElementById("finalImage");
 
-let clicked = false;
+/* шаг 1 — текст исчезает */
+setTimeout(() => {
+    startText.style.opacity = 0;
+}, 3000);
 
-/* сердце */
+/* шаг 2 — появляется сердце */
+setTimeout(() => {
+    heartBlock.style.opacity = 1;
+}, 4500);
+
+/* шаг 3 — клик */
 heart.addEventListener("click", () => {
-    topText.style.opacity = 0;
-    heart.style.opacity = 0;
+    heartBlock.style.opacity = 0;
+    startText.style.opacity = 0;
 
     setTimeout(() => {
-        message.style.opacity = 1;
-    }, 1000);
-
-    setTimeout(() => {
-        message.style.opacity = 0;
-    }, 3000);
-
-    setTimeout(() => {
-        bottomText.style.opacity = 1;
-    }, 4000);
-});
-
-/* кнопка */
-button.addEventListener("click", () => {
-    if (clicked) return;
-    clicked = true;
-
-    let width = 0;
-
-    let interval = setInterval(() => {
-        width += 2;
-        progress.style.width = width + "%";
-
-        if (width > 1000) {
-            clearInterval(interval);
-        }
-    }, 50);
+        image.style.display = "block";
+    }, 800);
 });
 </script>
 
